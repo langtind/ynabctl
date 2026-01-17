@@ -1,5 +1,7 @@
 # ynabctl
 
+![ynabctl banner](banner.jpg)
+
 A command-line interface for [You Need A Budget (YNAB)](https://www.ynab.com/).
 
 ## Installation
