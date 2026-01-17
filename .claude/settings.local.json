@@ -10,7 +10,10 @@
       "Bash(go test:*)",
       "Bash(go build:*)",
       "Bash(./bin/ynabctl version:*)",
-      "Bash(./bin/ynabctl:*)"
+      "Bash(./bin/ynabctl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

@@ -35,7 +35,7 @@ To get started, set your YNAB API token:
 You can obtain a token from YNAB: Account Settings > Developer Settings`,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// Skip initialization for commands that don't need it
-		if cmd.Name() == "version" || cmd.Name() == "help" {
+		if cmd.Name() == "version" || cmd.Name() == "help" || cmd.Name() == "ai" {
 			return nil
 		}
 		if cmd.Parent() != nil && cmd.Parent().Name() == "config" {
