@@ -59,7 +59,7 @@ var scheduledGetCmd = &cobra.Command{
 
 var (
 	schedAccountID  string
-	schedDateFirst  string
+	schedDate       string
 	schedFrequency  string
 	schedAmount     float64
 	schedPayeeID    string
@@ -76,7 +76,7 @@ var scheduledCreateCmd = &cobra.Command{
 
 Required flags:
   --account: Account ID
-  --date-first: First occurrence date (YYYY-MM-DD)
+  --date: First occurrence date (YYYY-MM-DD)
   --frequency: Recurrence frequency
   --amount: Transaction amount
 
@@ -97,14 +97,14 @@ Frequency options:
 			return fmt.Errorf("frequency is required (--frequency)")
 		}
 
-		dateFirst := schedDateFirst
-		if dateFirst == "" {
-			dateFirst = time.Now().Format("2006-01-02")
+		date := schedDate
+		if date == "" {
+			date = time.Now().Format("2006-01-02")
 		}
 
 		st := client.SaveScheduledTransaction{
 			AccountID:  schedAccountID,
-			DateFirst:  dateFirst,
+			Date:       date,
 			Frequency:  schedFrequency,
 			Amount:     client.AmountToMilliunits(schedAmount),
 			PayeeID:    schedPayeeID,
@@ -143,7 +143,7 @@ var scheduledUpdateCmd = &cobra.Command{
 
 		st := client.SaveScheduledTransaction{
 			AccountID:  existing.AccountID,
-			DateFirst:  existing.DateFirst,
+			Date:       existing.DateFirst,
 			Frequency:  existing.Frequency,
 			Amount:     existing.Amount,
 			PayeeID:    existing.PayeeID,
@@ -155,8 +155,8 @@ var scheduledUpdateCmd = &cobra.Command{
 		if cmd.Flags().Changed("account") {
 			st.AccountID = schedAccountID
 		}
-		if cmd.Flags().Changed("date-first") {
-			st.DateFirst = schedDateFirst
+		if cmd.Flags().Changed("date") {
+			st.Date = schedDate
 		}
 		if cmd.Flags().Changed("frequency") {
 			st.Frequency = schedFrequency
@@ -221,7 +221,7 @@ func init() {
 
 	// Create flags
 	scheduledCreateCmd.Flags().StringVar(&schedAccountID, "account", "", "Account ID (required)")
-	scheduledCreateCmd.Flags().StringVar(&schedDateFirst, "date-first", "", "First occurrence date (YYYY-MM-DD)")
+	scheduledCreateCmd.Flags().StringVar(&schedDate, "date", "", "First occurrence date (YYYY-MM-DD)")
 	scheduledCreateCmd.Flags().StringVar(&schedFrequency, "frequency", "", "Recurrence frequency (required)")
 	scheduledCreateCmd.Flags().Float64Var(&schedAmount, "amount", 0, "Amount")
 	scheduledCreateCmd.Flags().StringVar(&schedPayeeID, "payee-id", "", "Payee ID")
@@ -232,7 +232,7 @@ func init() {
 
 	// Update flags
 	scheduledUpdateCmd.Flags().StringVar(&schedAccountID, "account", "", "Account ID")
-	scheduledUpdateCmd.Flags().StringVar(&schedDateFirst, "date-first", "", "First occurrence date (YYYY-MM-DD)")
+	scheduledUpdateCmd.Flags().StringVar(&schedDate, "date", "", "Date (YYYY-MM-DD)")
 	scheduledUpdateCmd.Flags().StringVar(&schedFrequency, "frequency", "", "Recurrence frequency")
 	scheduledUpdateCmd.Flags().Float64Var(&schedAmount, "amount", 0, "Amount")
 	scheduledUpdateCmd.Flags().StringVar(&schedPayeeID, "payee-id", "", "Payee ID")

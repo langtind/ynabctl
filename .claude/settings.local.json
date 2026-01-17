@@ -13,7 +13,11 @@
       "Bash(./bin/ynabctl:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebSearch",
+      "Bash(ynabctl budgets:*)",
+      "Bash(ynabctl accounts list:*)",
+      "Bash(curl:*)"
     ]
   }
 }

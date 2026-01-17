@@ -162,7 +162,7 @@ ynabctl scheduled create \
   --account <account-id> \
   --amount -100.00 \
   --frequency monthly \
-  --date-first 2024-01-01 \
+  --date 2024-01-01 \
   --payee-name "Landlord" \
   --memo "Rent"
 

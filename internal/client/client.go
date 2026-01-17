@@ -794,7 +794,7 @@ func (c *Client) GetScheduledTransaction(budgetID, scheduledTransactionID string
 // SaveScheduledTransaction represents a scheduled transaction to create or update
 type SaveScheduledTransaction struct {
 	AccountID  string `json:"account_id"`
-	DateFirst  string `json:"date_first"`
+	Date       string `json:"date"`
 	Frequency  string `json:"frequency"`
 	Amount     int64  `json:"amount"`
 	PayeeID    string `json:"payee_id,omitempty"`
