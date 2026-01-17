@@ -22,3 +22,6 @@ coverage.html
 
 # Vendor (if used)
 vendor/
+
+# Claude
+.claude/
