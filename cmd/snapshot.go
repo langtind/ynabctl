@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/langtind/ynabctl/internal/client"
@@ -15,6 +16,7 @@ var (
 	snapshotPeriod   string
 	snapshotSpecific string
 	snapshotOut      string
+	snapshotOutDir   string
 )
 
 type snapshot struct {
@@ -92,11 +94,19 @@ unless --out is given.`,
 			return err
 		}
 
-		if snapshotOut != "" {
-			if err := os.WriteFile(snapshotOut, data, 0o644); err != nil {
-				return fmt.Errorf("write %s: %w", snapshotOut, err)
+		outPath := snapshotOut
+		if outPath == "" && snapshotOutDir != "" {
+			if err := os.MkdirAll(snapshotOutDir, 0o755); err != nil {
+				return fmt.Errorf("mkdir %s: %w", snapshotOutDir, err)
 			}
-			fmt.Fprintf(os.Stderr, "snapshot saved: %s (%s → %s)\n", snapshotOut, p.StartDate, p.EndDate)
+			outPath = filepath.Join(snapshotOutDir, p.Name+".json")
+		}
+		if outPath != "" {
+			if err := os.WriteFile(outPath, data, 0o644); err != nil {
+				return fmt.Errorf("write %s: %w", outPath, err)
+			}
+			fmt.Fprintf(os.Stderr, "snapshot saved: %s (%s → %s)\n", outPath, p.StartDate, p.EndDate)
+			fmt.Println(outPath)
 			return nil
 		}
 		_, err = os.Stdout.Write(data)
@@ -111,6 +121,7 @@ func init() {
 	rootCmd.AddCommand(snapshotCmd)
 	snapshotCmd.Flags().StringVar(&snapshotPeriod, "period", "", "Period kind: week|month|quarter|year (required)")
 	snapshotCmd.Flags().StringVar(&snapshotSpecific, "specific", "", "Specific period (e.g. 2026-03, 2026-W15, 2026-Q1, 2026)")
-	snapshotCmd.Flags().StringVar(&snapshotOut, "out", "", "Write JSON to file instead of stdout")
+	snapshotCmd.Flags().StringVar(&snapshotOut, "out", "", "Write JSON to this file instead of stdout")
+	snapshotCmd.Flags().StringVar(&snapshotOutDir, "out-dir", "", "Write JSON to <dir>/<period-name>.json (dir created if missing)")
 	_ = snapshotCmd.MarkFlagRequired("period")
 }
