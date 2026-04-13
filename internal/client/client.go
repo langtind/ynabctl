@@ -209,24 +209,24 @@ func (c *Client) GetBudgetSettings(budgetID string) (*BudgetSettings, error) {
 
 // Account types
 type Account struct {
-	ID                     string `json:"id"`
-	Name                   string `json:"name"`
-	Type                   string `json:"type"`
-	OnBudget               bool   `json:"on_budget"`
-	Closed                 bool   `json:"closed"`
-	Note                   string `json:"note"`
-	Balance                int64  `json:"balance"`
-	ClearedBalance         int64  `json:"cleared_balance"`
-	UnclearedBalance       int64  `json:"uncleared_balance"`
-	TransferPayeeID        string `json:"transfer_payee_id"`
-	DirectImportLinked     bool   `json:"direct_import_linked"`
-	DirectImportInError    bool   `json:"direct_import_in_error"`
-	LastReconciledAt       string `json:"last_reconciled_at"`
-	DebtOriginalBalance    int64  `json:"debt_original_balance"`
-	DebtInterestRates      map[string]int64 `json:"debt_interest_rates"`
-	DebtMinimumPayments    map[string]int64 `json:"debt_minimum_payments"`
-	DebtEscrowAmounts      map[string]int64 `json:"debt_escrow_amounts"`
-	Deleted                bool   `json:"deleted"`
+	ID                  string           `json:"id"`
+	Name                string           `json:"name"`
+	Type                string           `json:"type"`
+	OnBudget            bool             `json:"on_budget"`
+	Closed              bool             `json:"closed"`
+	Note                string           `json:"note"`
+	Balance             int64            `json:"balance"`
+	ClearedBalance      int64            `json:"cleared_balance"`
+	UnclearedBalance    int64            `json:"uncleared_balance"`
+	TransferPayeeID     string           `json:"transfer_payee_id"`
+	DirectImportLinked  bool             `json:"direct_import_linked"`
+	DirectImportInError bool             `json:"direct_import_in_error"`
+	LastReconciledAt    string           `json:"last_reconciled_at"`
+	DebtOriginalBalance int64            `json:"debt_original_balance"`
+	DebtInterestRates   map[string]int64 `json:"debt_interest_rates"`
+	DebtMinimumPayments map[string]int64 `json:"debt_minimum_payments"`
+	DebtEscrowAmounts   map[string]int64 `json:"debt_escrow_amounts"`
+	Deleted             bool             `json:"deleted"`
 }
 
 type AccountsResponse struct {
@@ -479,29 +479,29 @@ func (c *Client) UpdatePayee(budgetID, payeeID, name string) (*Payee, error) {
 
 // Transaction types
 type Transaction struct {
-	ID                    string        `json:"id"`
-	Date                  string        `json:"date"`
-	Amount                int64         `json:"amount"`
-	Memo                  string        `json:"memo"`
-	Cleared               string        `json:"cleared"`
-	Approved              bool          `json:"approved"`
-	FlagColor             string        `json:"flag_color"`
-	FlagName              string        `json:"flag_name"`
-	AccountID             string        `json:"account_id"`
-	AccountName           string        `json:"account_name"`
-	PayeeID               string        `json:"payee_id"`
-	PayeeName             string        `json:"payee_name"`
-	CategoryID            string        `json:"category_id"`
-	CategoryName          string        `json:"category_name"`
-	TransferAccountID     string        `json:"transfer_account_id"`
-	TransferTransactionID string        `json:"transfer_transaction_id"`
-	MatchedTransactionID  string        `json:"matched_transaction_id"`
-	ImportID              string        `json:"import_id"`
-	ImportPayeeName       string        `json:"import_payee_name"`
-	ImportPayeeNameOriginal string      `json:"import_payee_name_original"`
-	DebtTransactionType   string        `json:"debt_transaction_type"`
-	Deleted               bool          `json:"deleted"`
-	Subtransactions       []Subtransaction `json:"subtransactions"`
+	ID                      string           `json:"id"`
+	Date                    string           `json:"date"`
+	Amount                  int64            `json:"amount"`
+	Memo                    string           `json:"memo"`
+	Cleared                 string           `json:"cleared"`
+	Approved                bool             `json:"approved"`
+	FlagColor               string           `json:"flag_color"`
+	FlagName                string           `json:"flag_name"`
+	AccountID               string           `json:"account_id"`
+	AccountName             string           `json:"account_name"`
+	PayeeID                 string           `json:"payee_id"`
+	PayeeName               string           `json:"payee_name"`
+	CategoryID              string           `json:"category_id"`
+	CategoryName            string           `json:"category_name"`
+	TransferAccountID       string           `json:"transfer_account_id"`
+	TransferTransactionID   string           `json:"transfer_transaction_id"`
+	MatchedTransactionID    string           `json:"matched_transaction_id"`
+	ImportID                string           `json:"import_id"`
+	ImportPayeeName         string           `json:"import_payee_name"`
+	ImportPayeeNameOriginal string           `json:"import_payee_name_original"`
+	DebtTransactionType     string           `json:"debt_transaction_type"`
+	Deleted                 bool             `json:"deleted"`
+	Subtransactions         []Subtransaction `json:"subtransactions"`
 }
 
 type Subtransaction struct {
@@ -532,11 +532,11 @@ type TransactionResponse struct {
 
 // TransactionFilter contains filters for listing transactions
 type TransactionFilter struct {
-	SinceDate   string
-	Type        string
-	AccountID   string
-	CategoryID  string
-	PayeeID     string
+	SinceDate  string
+	Type       string
+	AccountID  string
+	CategoryID string
+	PayeeID    string
 }
 
 // GetTransactions returns transactions for a budget with optional filters
@@ -719,34 +719,34 @@ func (c *Client) DeleteTransaction(budgetID, transactionID string) (*Transaction
 
 // ScheduledTransaction types
 type ScheduledTransaction struct {
-	ID                    string                    `json:"id"`
-	DateFirst             string                    `json:"date_first"`
-	DateNext              string                    `json:"date_next"`
-	Frequency             string                    `json:"frequency"`
-	Amount                int64                     `json:"amount"`
-	Memo                  string                    `json:"memo"`
-	FlagColor             string                    `json:"flag_color"`
-	FlagName              string                    `json:"flag_name"`
-	AccountID             string                    `json:"account_id"`
-	AccountName           string                    `json:"account_name"`
-	PayeeID               string                    `json:"payee_id"`
-	PayeeName             string                    `json:"payee_name"`
-	CategoryID            string                    `json:"category_id"`
-	CategoryName          string                    `json:"category_name"`
-	TransferAccountID     string                    `json:"transfer_account_id"`
-	Deleted               bool                      `json:"deleted"`
-	Subtransactions       []ScheduledSubtransaction `json:"subtransactions"`
+	ID                string                    `json:"id"`
+	DateFirst         string                    `json:"date_first"`
+	DateNext          string                    `json:"date_next"`
+	Frequency         string                    `json:"frequency"`
+	Amount            int64                     `json:"amount"`
+	Memo              string                    `json:"memo"`
+	FlagColor         string                    `json:"flag_color"`
+	FlagName          string                    `json:"flag_name"`
+	AccountID         string                    `json:"account_id"`
+	AccountName       string                    `json:"account_name"`
+	PayeeID           string                    `json:"payee_id"`
+	PayeeName         string                    `json:"payee_name"`
+	CategoryID        string                    `json:"category_id"`
+	CategoryName      string                    `json:"category_name"`
+	TransferAccountID string                    `json:"transfer_account_id"`
+	Deleted           bool                      `json:"deleted"`
+	Subtransactions   []ScheduledSubtransaction `json:"subtransactions"`
 }
 
 type ScheduledSubtransaction struct {
-	ID                string `json:"id"`
+	ID                     string `json:"id"`
 	ScheduledTransactionID string `json:"scheduled_transaction_id"`
-	Amount            int64  `json:"amount"`
-	Memo              string `json:"memo"`
-	PayeeID           string `json:"payee_id"`
-	CategoryID        string `json:"category_id"`
-	TransferAccountID string `json:"transfer_account_id"`
-	Deleted           bool   `json:"deleted"`
+	Amount                 int64  `json:"amount"`
+	Memo                   string `json:"memo"`
+	PayeeID                string `json:"payee_id"`
+	CategoryID             string `json:"category_id"`
+	TransferAccountID      string `json:"transfer_account_id"`
+	Deleted                bool   `json:"deleted"`
 }
 
 type ScheduledTransactionsResponse struct {
@@ -860,15 +860,15 @@ func (c *Client) DeleteScheduledTransaction(budgetID, scheduledTransactionID str
 
 // Month types
 type Month struct {
-	Month      string     `json:"month"`
-	Note       string     `json:"note"`
-	Income     int64      `json:"income"`
-	Budgeted   int64      `json:"budgeted"`
-	Activity   int64      `json:"activity"`
-	ToBeBudgeted int64    `json:"to_be_budgeted"`
-	AgeOfMoney int        `json:"age_of_money"`
-	Deleted    bool       `json:"deleted"`
-	Categories []Category `json:"categories"`
+	Month        string     `json:"month"`
+	Note         string     `json:"note"`
+	Income       int64      `json:"income"`
+	Budgeted     int64      `json:"budgeted"`
+	Activity     int64      `json:"activity"`
+	ToBeBudgeted int64      `json:"to_be_budgeted"`
+	AgeOfMoney   int        `json:"age_of_money"`
+	Deleted      bool       `json:"deleted"`
+	Categories   []Category `json:"categories"`
 }
 
 type MonthsResponse struct {
