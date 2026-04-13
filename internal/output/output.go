@@ -1,6 +1,7 @@
 package output
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -32,11 +33,66 @@ func (f *Formatter) Print(data interface{}) error {
 	return f.printJSON(data)
 }
 
-// printJSON outputs data as pretty-printed JSON
+// milliunitKeys are JSON field names whose integer value is expressed in
+// YNAB milliunits. For each match we emit a sibling "<key>_decimal" with
+// the value divided by 1000, so agents and humans can read amounts
+// without converting and without losing the milliunit precision.
+var milliunitKeys = map[string]struct{}{
+	"balance":               {},
+	"cleared_balance":       {},
+	"uncleared_balance":     {},
+	"budgeted":              {},
+	"activity":              {},
+	"income":                {},
+	"to_be_budgeted":        {},
+	"amount":                {},
+	"debt_original_balance": {},
+	"goal_target":           {},
+	"goal_under_funded":     {},
+	"goal_overall_funded":   {},
+	"goal_overall_left":     {},
+}
+
+func enrichMilliunits(v interface{}) interface{} {
+	switch x := v.(type) {
+	case map[string]interface{}:
+		for k, val := range x {
+			x[k] = enrichMilliunits(val)
+			if _, ok := milliunitKeys[k]; ok {
+				if n, isNum := val.(json.Number); isNum {
+					if i, err := n.Int64(); err == nil {
+						x[k+"_decimal"] = float64(i) / 1000
+					}
+				}
+			}
+		}
+		return x
+	case []interface{}:
+		for i, val := range x {
+			x[i] = enrichMilliunits(val)
+		}
+		return x
+	}
+	return v
+}
+
+// printJSON outputs data as pretty-printed JSON, enriching milliunit
+// integer fields with a sibling "<name>_decimal" float.
 func (f *Formatter) printJSON(data interface{}) error {
+	raw, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
+	var parsed interface{}
+	if err := dec.Decode(&parsed); err != nil {
+		return err
+	}
+	enriched := enrichMilliunits(parsed)
 	encoder := json.NewEncoder(f.writer)
 	encoder.SetIndent("", "  ")
-	return encoder.Encode(data)
+	return encoder.Encode(enriched)
 }
 
 // printTable outputs data in tabular format
